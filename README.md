@@ -27,11 +27,11 @@ ft_linear_regression/
 │   ├── train
 │   └── utils
 ├── include/
-│   └── 
-├── data/
 │   ├── predict
 │   ├── train
 │   └── utils
+├── data/
+│   └── data.csv
 ├── Makefile
 └── README.md
 ```
@@ -40,7 +40,7 @@ ft_linear_regression/
 
 To build both programs, simply run:
 ```bash
-make all
+make
 ```
 
 This will create two executables:
