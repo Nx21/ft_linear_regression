@@ -23,13 +23,15 @@ estimatePrice(mileage) = θ₀ + (θ₁ * mileage)
 ```
 ft_linear_regression/
 ├── src/
-│   ├── predict.cpp
-│   ├── train.cpp
-│   └── utils.cpp
+│   ├── predict
+│   ├── train
+│   └── utils
 ├── include/
-│   └── utils.hpp
+│   └── 
 ├── data/
-│   └── data.csv
+│   ├── predict
+│   ├── train
+│   └── utils
 ├── Makefile
 └── README.md
 ```
@@ -38,7 +40,7 @@ ft_linear_regression/
 
 To build both programs, simply run:
 ```bash
-make
+make all
 ```
 
 This will create two executables:
