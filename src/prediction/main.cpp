@@ -6,7 +6,7 @@
 /*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 21:11:40 by nasr              #+#    #+#             */
-/*   Updated: 2024/11/28 22:02:53 by nasr             ###   ########.fr       */
+/*   Updated: 2025/01/01 17:24:51 by nasr             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,24 @@ double ft_stoi(const std::string &s)
 
 int main(int argc, char const *argv[])
 {
-    if(argc != 4)
-        std::cerr << "Wrong number of aarguments" << std::endl;
-    std::vector<double> params(3);
-    for (size_t i = 1; i < argc; i++)
+
+    if(argc != 2 && argc != 1)
     {
-        std::string s = argv[i];
-        params[i - 1] = ft_stoi(s);
+        std::cerr << "Wrong number of aarguments" << std::endl;
+        return 1;
     }
-    double result = params[0] + params[1] * params[2];
+    if(argc == 2)
+    {
+        std::ifstream file;
+        file.open(argv[1]);
+        if(file.is_open())
+        {
+            std::cerr << "Prediction: unable to open file: " << argv[1] << std::endl;
+            return 0;
+        }
+        
+    }
+    double result = estimatePrice(params[0], params[1], params[2]);
     std::cout << result << std::endl;
     return 0; 
 }

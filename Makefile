@@ -9,7 +9,7 @@ PRDCT_SRC = prediction/main
 
 INC = include
 
-HEADER = include/prediction/prediction.hpp include/train/train.hpp
+HEADER = include/prediction/prediction.hpp include/train/train.hpp include/utils/estimatePrice.hpp
 
 ODIR = obj
 
