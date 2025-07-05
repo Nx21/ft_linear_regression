@@ -3,16 +3,17 @@
 CC = g++
 
 CFLAGS = -std=c++17 
-
-TRAIN_SRC = train/main
+SRC = MVector/MVector 
+TRAIN_SRC = train/main 
 PRDCT_SRC = prediction/main
 
 INC = include
 
-HEADER = include/Matrix/Matrix.hpp include/prediction/prediction.hpp include/train/train.hpp include/utils/estimatePrice.hpp
+HEADER = include/MVector/MVector.hpp include/Matrix/Matrix.hpp
 
 ODIR = obj
 
+OBJ = $(addprefix $(ODIR)/, $(SRC:=.o))
 TOBJ = $(addprefix $(ODIR)/, $(TRAIN_SRC:=.o))
 POBJ = $(addprefix $(ODIR)/, $(PRDCT_SRC:=.o))
 
@@ -21,13 +22,13 @@ PRDCT_NAME = prediction
 
 all: $(TRAIN_NAME) $(PRDCT_NAME)
 
-$(TRAIN_NAME): $(TOBJ)
-	@echo  $(TOBJ) $(TRAIN_NAME)
-	@$(CC) $(CFLAGS)  $(TOBJ) -o $(TRAIN_NAME)  -L/usr/local/lib -flto=28 -I/usr/local/include -lmatplot
+$(TRAIN_NAME): $(TOBJ) $(OBJ)
+	@echo  $(TOBJ) $(OBJ) $(TRAIN_NAME)
+	@$(CC) $(CFLAGS)  $(TOBJ) $(OBJ) -o $(TRAIN_NAME)  -L/usr/local/lib -flto=28 -I/usr/local/include -lmatplot
 
-$(PRDCT_NAME): $(POBJ)
-	@echo  $(POBJ) $(PRDCT_NAME)
-	@$(CC) $(CFLAGS)  $(POBJ) -o $(PRDCT_NAME)  -L/usr/local/lib -flto=28 -I/usr/local/include -lmatplot\
+$(PRDCT_NAME): $(POBJ) $(OBJ)
+	@echo  $(POBJ) $(OBJ) $(PRDCT_NAME)
+	@$(CC) $(CFLAGS)  $(POBJ) $(OBJ) -o $(PRDCT_NAME)  -L/usr/local/lib -flto=28 -I/usr/local/include -lmatplot\
 
 $(ODIR)/%.o: src/%.cpp $(HEADER)
 	@echo exec3 src/%.cpp

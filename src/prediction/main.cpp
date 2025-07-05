@@ -6,11 +6,11 @@
 /*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 21:11:40 by nasr              #+#    #+#             */
-/*   Updated: 2025/01/01 17:24:51 by nasr             ###   ########.fr       */
+/*   Updated: 2025/07/05 20:52:31 by nasr             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prediction/prediction.hpp"
+#include "Matrix/Matrix.hpp"
 
 double ft_stoi(const std::string &s)
 {
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
         }
         
     }
-    double result = estimatePrice(params[0], params[1], params[2]);
-    std::cout << result << std::endl;
+    // double result = estimatePrice(params[0], params[1], params[2]);
+    // std::cout << result << std::endl;
     return 0; 
 }
