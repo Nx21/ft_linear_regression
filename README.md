@@ -1,126 +1,71 @@
-# ft_linear_regression
+# Linear Regression Using Gradient Descent
 
-A simple linear regression implementation in C++ to predict car prices based on mileage. This project implements a basic machine learning algorithm that uses gradient descent to find the optimal parameters for a linear function.
+This project demonstrates how to perform **Linear Regression** using **Gradient Descent**, an optimization algorithm used to minimize the cost function and find the best-fit line for a given dataset.
 
-## Overview
+---
 
-This project consists of two main programs:
-1. `predict` - Predicts the price of a car for a given mileage
-2. `train` - Trains the model using gradient descent on the provided dataset
+## 📘 Overview
 
-The program uses the following hypothesis for price prediction:
-```
-estimatePrice(mileage) = θ₀ + (θ₁ * mileage)
-```
+Linear regression is a fundamental algorithm in machine learning for modeling the relationship between a dependent variable and one or more independent variables.
 
-## Requirements
+While the **Normal Equation** offers an analytical solution, **Gradient Descent** provides a scalable alternative—especially useful when:
+- The number of features is large.
+- The feature matrix is non-invertible.
+- You want iterative control over learning and convergence.
 
-- C++ compiler (supporting C++11 or later)
-- Make
+---
 
-## Project Structure
+## ⚙️ How Gradient Descent Works
 
-```
-ft_linear_regression/
-├── src/
-│   ├── predict
-│   ├── train
-│   └── utils
-├── include/
-│   ├── predict
-│   ├── train
-│   └── utils
-├── data/
-│   └── data.csv
-├── Makefile
-└── README.md
-```
+Gradient Descent minimizes the **Mean Squared Error (MSE)** by updating the model's weights (θ) iteratively using the following update rule:
 
-## Building the Project
+\[
+\theta_j := \theta_j - \alpha \cdot \frac{1}{m} \sum_{i=1}^{m} \left(h_\theta(x^{(i)}) - y^{(i)}\right) x_j^{(i)}
+\]
 
-To build both programs, simply run:
-```bash
-make
-```
+### 🔍 Explanation of Terms
 
-This will create two executables:
-- `predict` - for price prediction
-- `train` - for training the model
+| Symbol | Description |
+|--------|-------------|
+| \( \alpha \) | Learning rate — controls the step size during each iteration. |
+| \( m \) | Number of training examples. |
+| \( h_\theta(x^{(i)}) \) | Hypothesis (predicted value) for the \(i^{th}\) input. |
+| \( x^{(i)} \) | Feature vector of the \(i^{th}\) training example. |
+| \( y^{(i)} \) | Actual target value for the \(i^{th}\) example. |
+| \( x_j^{(i)} \) | Value of the \(j^{th}\) feature for the \(i^{th}\) example. |
 
-## Usage
+---
 
-### Training the Model
+## 🧠 Key Points
 
-```bash
-./train data/data.csv
-```
+- **Learning Rate (α)**:
+  - Too small → slow convergence.
+  - Too large → risk of overshooting or divergence.
+- **Number of Iterations**:
+  - Must be chosen carefully to ensure convergence.
+  - Can be set manually or determined using convergence criteria.
 
-The training program will:
-1. Read the dataset from the specified CSV file
-2. Perform linear regression using gradient descent
-3. Save the computed parameters (θ₀ and θ₁) to a file for later use in prediction
+---
 
-### Predicting Prices
+## 🛠️ Practical Implementation Steps
 
-```bash
-./predict
-```
+1. **Initialize weights** (usually to 0 or small random values).
+2. **Compute predictions** using the current weights.
+3. **Calculate the cost function** (typically MSE).
+4. **Compute gradients** of the cost with respect to each weight.
+5. **Update weights** using the gradient descent update rule.
+6. **Repeat** steps 2–5 until convergence or the maximum number of iterations is reached.
 
-The prediction program will:
-1. Load the trained parameters
-2. Prompt you for a mileage value
-3. Output the estimated price for the given mileage
+---
 
-## Implementation Details
+## ✅ When to Use Gradient Descent
 
-### Training Algorithm
+- Large datasets or high-dimensional feature spaces.
+- Online or mini-batch learning scenarios.
+- Preference for iterative optimization methods.
 
-The training program implements gradient descent using the following formulas:
+---
 
-```
-tmpθ₀ = learningRate * (1/m) * Σ(estimatePrice(mileage[i]) - price[i])
-tmpθ₁ = learningRate * (1/m) * Σ(estimatePrice(mileage[i]) - price[i]) * mileage[i]
-```
+## 📌 Conclusion
 
-Where:
-- m is the number of training examples
-- learningRate is the step size for gradient descent
-- estimatePrice uses the current θ₀ and θ₁ values
-
-### Data Format
-
-The training data should be provided in a CSV file with the following format:
-```
-mileage,price
-240000,3650
-139800,3800
-150500,4400
-...
-```
-
-## Visualization
-
-The project includes data visualization capabilities to:
-- Plot the training data points
-- Display the regression line
-- Show the convergence of the gradient descent algorithm
-
-## Error Metrics
-
-The program calculates and displays various error metrics to evaluate the model's performance:
-- Mean Squared Error (MSE)
-- R-squared (R²) value
-- Mean Absolute Error (MAE)
-
-## License
-
-This project is part of the 42 school curriculum.
-
-## Author
-
-EDDINE Nasr
-
-## Acknowledgments
-
-Based on the ft_linear_regression project from 42 school.
-https://cdn.intra.42.fr/pdf/pdf/143936/en.subject.pdf
+Gradient Descent is a powerful and flexible method for optimizing linear regression models. It provides control over training dynamics and is widely used in practice due to its efficiency with large datasets.

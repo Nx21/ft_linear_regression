@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   estimatePrice.hpp                                  :+:      :+:    :+:   */
+/*   Matrix.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 21:02:41 by nasr              #+#    #+#             */
-/*   Updated: 2025/01/25 10:37:01 by nasr             ###   ########.fr       */
+/*   Created: 2025/06/28 14:11:12 by nasr              #+#    #+#             */
+/*   Updated: 2025/06/28 15:22:52 by nasr             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ESTIMATEPRICE_HPP
-#define ESTIMATEPRICE_HPP
-#include <iostream>
-#include <fstream>
+#ifndef PREDICTION_HPP
+#define PREDICTION_HPP
 #include <vector>
-#include <algorithm>
 
-double estimatePrice(double tita0, double tita1, double mileage)
+template <typename T> 
+class Matrix
 {
-    return tita0 + tita1 * mileage;
-}
-
+private:
+    int _nrow, _ncol;
+    std::vector<std::vector<T> > mat;
+public:
+    Matrix(int nrow = 1, int n_col = 1, T def = 0);
+    Matrix(Matrix<T> M);
+    
+    ~Matrix();
+};
 
 #endif

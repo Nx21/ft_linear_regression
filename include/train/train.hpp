@@ -2,25 +2,23 @@
 #ifndef TRAIN_HPP
 #define TRAIN_HPP
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <algorithm>
+
 #include "utils/estimatePrice.hpp"
-class  
+
+class Train
 {
 private:
     /* data */
 public:
-     (/* args */);
-    ~ ();
+    Train(/* args */);
+    ~Train();
 };
 
- :: (/* args */)
+Train::Train(/* args */)
 {
 }
 
- ::~ ()
+Train::~Train()
 {
 }
 

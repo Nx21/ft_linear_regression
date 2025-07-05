@@ -6,45 +6,45 @@
 /*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 21:38:28 by nasr              #+#    #+#             */
-/*   Updated: 2025/01/21 23:00:44 by nasr             ###   ########.fr       */
+/*   Updated: 2025/01/25 10:36:31 by nasr             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PREDICTION_HPP
 #define PREDICTION_HPP
+#include "utils/estimatePrice.hpp"
 
-
-class prediction
+class Prediction
 {
 private:
     std::vector <double> _teta;
 public:
-    prediction();
-    prediction(const std::vector <double> teta);
+    Prediction();
+    Prediction(const std::vector <double> teta);
     double predict(const std::vector <double>  keys) const;
     void  update_params(const std::vector <double> teta);
-    ~prediction();
+    ~Prediction();
 };
 
-prediction::prediction():_teta(std::vector(2, double(0)))
+Prediction::Prediction():_teta(std::vector(2, double(0)))
 {
 }
 
-prediction::prediction(const std::vector <double> teta)
-{
-    if(teta.size() < 2)
-        throw "invalid teta size";
-    this->_teta = teta;
-}
-
-void prediction::update_params(const std::vector <double> teta)
+Prediction::Prediction(const std::vector <double> teta)
 {
     if(teta.size() < 2)
         throw "invalid teta size";
     this->_teta = teta;
 }
 
-double prediction::predict(const std::vector <double>  keys) const
+void Prediction::update_params(const std::vector <double> teta)
+{
+    if(teta.size() < 2)
+        throw "invalid teta size";
+    this->_teta = teta;
+}
+
+double Prediction::predict(const std::vector <double>  keys) const
 {
     if(keys.size() + 1 != this->_teta.size())
         throw "invalid keys size";
@@ -58,7 +58,7 @@ double prediction::predict(const std::vector <double>  keys) const
 
 
 
-prediction::~prediction()
+Prediction::~Prediction()
 {
 }
 
