@@ -12,6 +12,10 @@ class LR
     public:
         LR(){};
         LR(MVector<double> const &theta):_theta(theta){};
+        void    set_theta(std::vector<double> const &vec)
+        {
+            _theta = MVector(vec);
+        }
         void    train(Matrix<double> const &X , MVector<double> const &y,double alpha = 1, size_t iterations = 100)
         {
             size_t n = X.get_ncol(), m = X.get_nrow();
