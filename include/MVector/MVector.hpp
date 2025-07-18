@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   MVector.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nasreddinehanafi <nasreddinehanafi@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 14:11:12 by nasr              #+#    #+#             */
-/*   Updated: 2025/07/05 22:08:14 by nasr             ###   ########.fr       */
+/*   Updated: 2025/07/14 11:33:07 by nasreddineh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MVECTOR_HPP
 #define MVECTOR_HPP
+#include <cstddef>
 #include <vector>
 #include <stdexcept>
 #include <algorithm>
@@ -23,7 +24,7 @@ class MVector
 {
     private:
         size_t _size;
-        T *_vec;
+        T *_vec = NULL;
     public:
         MVector(int size = 0, T def = 0){
             _size = size;
@@ -39,7 +40,6 @@ class MVector
         };
 
         MVector(MVector<T> const &M){
-            delete[] _vec;
             _size = M.size();
             _vec = new T[_size];
             for (size_t i = 0; i < _size; i++)
@@ -47,8 +47,20 @@ class MVector
                 _vec[i] = M[i];
             }
         };
-        MVector(std::vector<T> const &M){
+        MVector operator=(MVector<T> const &M)
+        {
             delete[] _vec;
+            _size = M.size();
+            _vec = new T[_size];
+            for (size_t i = 0; i < _size; i++)
+            {
+                _vec[i] = M[i];
+            }
+            return *this;
+        }
+        MVector(std::vector<T> const &M){
+            if (_vec)
+                delete[] _vec;
             _size = M.size();
             _vec = new T[_size];
             for (size_t i = 0; i < _size; i++)
@@ -100,7 +112,11 @@ class MVector
             return res;
         };
         ~MVector(){
-            delete[] _vec; 
+            if(_vec)
+            {
+                delete[] _vec; 
+                _vec = NULL;
+            }
         };
 };
 

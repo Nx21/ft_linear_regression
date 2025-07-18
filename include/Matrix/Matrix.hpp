@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Matrix.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nasr <nasr@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nasreddinehanafi <nasreddinehanafi@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 20:53:13 by nasr              #+#    #+#             */
-/*   Updated: 2025/07/05 21:32:16 by nasr             ###   ########.fr       */
+/*   Updated: 2025/07/14 11:45:00 by nasreddineh      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,19 @@ class Matrix{
         }
         MVector<T> &operator[](size_t  index){
             if ( index >= this->_n)
+            {
+                std::cout << index << std::endl;
                 throw std::out_of_range("Index out of range");
+            }
             return _mat[index];
         };
         MVector<T> const &operator[](size_t  index) const{
             if ( index >= this->_n)
+            {
+                
+                std::cout << index << std::endl;
                 throw std::out_of_range("Index out of range");
+            }
             return _mat[index];
         };
         size_t get_nrow() const{return _n;};
