@@ -1,18 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lr.hpp                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nasreddinehanafi <nasreddinehanafi@stud    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 10:33:44 by nasreddineh       #+#    #+#             */
-/*   Updated: 2025/07/14 11:46:04 by nasreddineh      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LR_HPP
 #define LR_HPP
-
 
 #include "Matrix/Matrix.hpp"
 #include <cstddef>
@@ -26,34 +13,54 @@ class LR
         LR(MVector<double> const &theta):_theta(theta){};
         void    set_theta(std::vector<double> const &vec)
         {
-            
+
             _theta = MVector(vec);
-            
+
         }
-        void    train(Matrix<double> const &X , MVector<double> const &y,double alpha = 1, size_t iterations = 100)
+        void    train(Matrix<double> const &X , MVector<double> const &y, double alpha = 0.01, size_t iterations = 1000)
         {
             size_t n = X.get_ncol(), m = X.get_nrow();
-            double cst = alpha/m;
-            MVector<double> h(m);
-            _theta = MVector<double>(n, 1);
+            _theta = MVector<double>(n, 0);
+
             for (size_t itr = 0; itr < iterations; itr++)
             {
+
+                MVector<double> predictions(m);
                 for (size_t i = 0; i < m; i++)
                 {
-                    h[i] = _theta * X[i] - y[i];
+                    predictions[i] = _theta * X[i];
                 }
+
+                MVector<double> gradients(n, 0);
                 for (size_t j = 0; j < n; j++)
                 {
                     double sum = 0;
                     for (size_t i = 0; i < m; i++)
                     {
-                        sum += h[i] * X[i][j];
+                        sum += (predictions[i] - y[i]) * X[i][j];
                     }
-                    _theta[j] -= cst * sum;
+                    gradients[j] = sum / m;
+                }
+
+                for (size_t j = 0; j < n; j++)
+                {
+                    _theta[j] = _theta[j] - alpha * gradients[j];
+                }
+
+                if (itr % 100 == 0)
+                {
+                    double cost = 0;
+                    for (size_t i = 0; i < m; i++)
+                    {
+                        double error = predictions[i] - y[i];
+                        cost += error * error;
+                    }
+                    cost = cost / (2 * m);
+                    std::cout << "Iteration " << itr << ", Cost: " << cost << std::endl;
                 }
             }
         }
-        double  predection(MVector<double> const &x)
+        double  prediction(MVector<double> const &x)
         {
             return x * _theta;
         }
@@ -68,7 +75,7 @@ class LR
             size_t n = csv.size(), m = csv[0].size();
             Matrix<double> x(n -1, m + 1,  1);
             MVector <double> y(n -1);
-            
+
             puts("read_csv mid");
             for(int i = 1; i < n; i++)
             {
@@ -87,17 +94,16 @@ class LR
                 }
             }
             std::cout << y << std::endl;
-            puts("read_csv mid");
         }
-        
+
         ~LR(){
-            
+
         };
 };
 std::ostream& operator<<(std::ostream& os, const LR& obj) {
-    
+
     os << obj.get_theta();
-    
+
     return os;
 }
 

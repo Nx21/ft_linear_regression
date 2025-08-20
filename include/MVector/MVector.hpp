@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   MVector.hpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nasreddinehanafi <nasreddinehanafi@stud    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 14:11:12 by nasr              #+#    #+#             */
-/*   Updated: 2025/07/14 11:33:07 by nasreddineh      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MVECTOR_HPP
 #define MVECTOR_HPP
 #include <cstddef>
@@ -18,8 +6,8 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <sstream> 
-template <typename T> 
+#include <sstream>
+template <typename T>
 class MVector
 {
     private:
@@ -33,7 +21,7 @@ class MVector
             {
                 _vec[i] = def;
             }
-            
+
         };
         size_t size() const {
             return _size;
@@ -89,7 +77,7 @@ class MVector
             }
             return res;
         };
-        MVector<T> &operator+(MVector<T> const &M) const 
+        MVector<T> &operator+(MVector<T> const &M) const
         {
             if  (_size != M.size())
                 throw "deferent veector size";
@@ -100,7 +88,7 @@ class MVector
             }
             return res;
         };
-        MVector<T> operator-(MVector<T> const &M) const 
+        MVector<T> operator-(MVector<T> const &M) const
         {
             if  (_size != M.size())
                 throw "deferent veector size";
@@ -114,13 +102,13 @@ class MVector
         ~MVector(){
             if(_vec)
             {
-                delete[] _vec; 
+                delete[] _vec;
                 _vec = NULL;
             }
         };
 };
 
-template <typename T> 
+template <typename T>
 std::ostream& operator<<(std::ostream& os, const MVector<T>& obj) {
     for (size_t i = 0; i < obj.size(); i++)
     {

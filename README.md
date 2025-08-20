@@ -1,53 +1,146 @@
-# Linear Regression Using Gradient Descent
+# Linear Regression Project
 
-This project demonstrates how to perform **Linear Regression** using **Gradient Descent**, an optimization algorithm used to minimize the cost function and find the best-fit line for a given dataset.
+A comprehensive implementation of linear regression using gradient descent in C++, featuring normalization, command-line interface, and model evaluation tools.
 
----
+## � Features
 
-## 📘 Overview
+- **Training Program**: Train linear regression models with optional feature normalization
+- **Prediction Program**: Interactive prediction interface with automatic model detection
+- **Test Program**: Comprehensive model evaluation with multiple error metrics
+- **Command-Line Interface**: Flexible argument parsing for all programs
+- **Feature Normalization**: Z-score normalization for stable convergence
+- **Model Persistence**: Save and load trained models
+- **Cross-Platform**: C++ implementation with Python alternatives
 
-Linear regression is a fundamental algorithm in machine learning for modeling the relationship between a dependent variable and one or more independent variables.
+## 📁 Project Structure
 
-While the **Normal Equation** offers an analytical solution, **Gradient Descent** provides a scalable alternative—especially useful when:
-- The number of features is large.
-- The feature matrix is non-invertible.
-- You want iterative control over learning and convergence.
+```
+ft_linear_regression/
+├── src/
+│   ├── train/main.cpp      # Training program
+│   ├── prediction/main.cpp # Prediction program
+│   └── test/main.cpp       # Model evaluation program
+├── include/
+│   ├── lr/lr.hpp           # Linear regression class
+│   ├── Matrix/Matrix.hpp   # Matrix operations
+│   ├── MVector/MVector.hpp # Vector operations
+│   └── csv_to_matrix/      # CSV parsing utilities
+├── data/
+│   └── data.csv           # Training dataset
+├── Makefile               # Build configuration
+└── scripts/               # Development utilities (git ignored)
+```
 
----
+## 🔧 Building
 
-## ⚙️ How Gradient Descent Works
+```bash
+make clean && make
+```
 
-Gradient Descent minimizes the **Mean Squared Error (MSE)** by updating the model's weights (θ) iteratively using the following update rule:
+This creates three executables:
+- `train` - Training program
+- `prediction` - Prediction program  
+- `test` - Model evaluation program
 
-\[
-\theta_j := \theta_j - \alpha \cdot \frac{1}{m} \sum_{i=1}^{m} \left(h_\theta(x^{(i)}) - y^{(i)}\right) x_j^{(i)}
-\]
+## 📖 Usage
 
-### 🔍 Explanation of Terms
+### Training
+```bash
+# Basic training
+./train data/data.csv
 
-| Symbol | Description |
-|--------|-------------|
-| \( \alpha \) | Learning rate — controls the step size during each iteration. |
-| \( m \) | Number of training examples. |
-| \( h_\theta(x^{(i)}) \) | Hypothesis (predicted value) for the \(i^{th}\) input. |
-| \( x^{(i)} \) | Feature vector of the \(i^{th}\) training example. |
-| \( y^{(i)} \) | Actual target value for the \(i^{th}\) example. |
-| \( x_j^{(i)} \) | Value of the \(j^{th}\) feature for the \(i^{th}\) example. |
+# With normalization (recommended)
+./train data/data.csv --norm
 
----
+# Custom learning rate
+./train data/data.csv --norm --learning-rate 0.05
 
-## 🧠 Key Points
+# Help
+./train --help
+```
 
-- **Learning Rate (α)**:
-  - Too small → slow convergence.
-  - Too large → risk of overshooting or divergence.
-- **Number of Iterations**:
-  - Must be chosen carefully to ensure convergence.
-  - Can be set manually or determined using convergence criteria.
+### Prediction
+```bash
+./prediction
+# Interactive mode - enter feature values to get predictions
+```
 
----
+### Model Evaluation
+```bash
+# Test on training data
+./test
 
-## 🛠️ Practical Implementation Steps
+# Test on separate dataset
+./test data/test_data.csv
+
+# Custom model file
+./test data/test_data.csv my_model.txt
+```
+
+## � Model Performance
+
+| Method | R² Score | RMSE | MAE | Quality |
+|--------|----------|------|-----|---------|
+| With Normalization | 0.733 | 668 | 558 | GOOD |
+| Without Normalization | -8.21 | 3920 | 3516 | POOR |
+
+## 🧮 Algorithm Details
+
+### Gradient Descent Formula
+```
+θⱼ := θⱼ - α × (1/m) × Σ(hθ(x⁽ⁱ⁾) - y⁽ⁱ⁾) × xⱼ⁽ⁱ⁾
+```
+
+### Feature Normalization
+```
+x_norm = (x - μ) / σ
+```
+Where μ is the mean and σ is the standard deviation.
+
+## 🔍 Key Components
+
+### Linear Regression Class (`lr.hpp`)
+- Gradient descent implementation
+- Training with configurable learning rate and iterations
+- Cost function monitoring
+- Parameter optimization
+
+### Matrix Operations (`Matrix.hpp`, `MVector.hpp`)
+- Custom matrix and vector classes
+- Mathematical operations for linear algebra
+- Memory management
+
+### CSV Processing (`csv_to_matrix.hpp`)
+- Automatic CSV parsing
+- Flexible format support (last column as target)
+- Data validation
+
+## 📈 Error Metrics
+
+The test program provides comprehensive evaluation:
+- **MSE**: Mean Squared Error
+- **RMSE**: Root Mean Squared Error  
+- **MAE**: Mean Absolute Error
+- **R²**: Coefficient of determination
+
+## 🎯 Best Practices
+
+1. **Always use normalization** for features with different scales
+2. **Start with learning rate 0.1** for normalized data
+3. **Use very small learning rates** (1e-12) for non-normalized data
+4. **Monitor cost function** convergence during training
+5. **Evaluate on separate test data** for realistic performance assessment
+
+## 🔧 Development Tools
+
+See `scripts/README.md` for additional development utilities including:
+- Python implementations
+- Comment removal tools
+- Project summary scripts
+
+## � License
+
+This project is part of the 42 curriculum for learning machine learning fundamentals.
 
 1. **Initialize weights** (usually to 0 or small random values).
 2. **Compute predictions** using the current weights.

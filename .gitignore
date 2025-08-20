@@ -1,3 +1,25 @@
+# Build artifacts
 .vscode
 obj
+*.o
+
+# Project artifacts
 en.subject.pdf
+model.txt
+thetas.txt
+
+# Executables (in root directory)
+/train
+/prediction
+/test
+
+# Scripts and utilities (development tools)
+scripts/
+
+# Backup files
+*.bak
+*.tmp
+
+# Test datasets (optional - can be removed if you want to track them)
+data/test_data.csv
+data/train_data.csv

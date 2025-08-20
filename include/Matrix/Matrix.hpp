@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Matrix.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nasreddinehanafi <nasreddinehanafi@stud    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/05 20:53:13 by nasr              #+#    #+#             */
-/*   Updated: 2025/07/14 11:45:00 by nasreddineh      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 #include "MVector/MVector.hpp"
@@ -28,7 +16,7 @@ class Matrix{
             {
                 this->_mat[i] = MVector(this->_m, def);
             }
-            
+
         }
         Matrix(Matrix<T> const &inp)
         {
@@ -51,7 +39,7 @@ class Matrix{
         MVector<T> const &operator[](size_t  index) const{
             if ( index >= this->_n)
             {
-                
+
                 std::cout << index << std::endl;
                 throw std::out_of_range("Index out of range");
             }
