@@ -1,40 +1,14 @@
 #include "Matrix/Matrix.hpp"
+#include "lr/lr.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "ft_stod.hpp"
 #include <vector>
 #include <sstream>
+#include <string>
 
-double ft_stod(const std::string &s)
-{
-
-    if (s.find_first_not_of("0123456789.-+") != s.npos ||
-        std::count(s.begin(), s.end(), '.') > 1) {
-        std::cerr << "Error: Invalid number format '" << s << "'" << std::endl;
-        exit(1);
-    }
-
-    try {
-        return std::stod(s);
-    } catch (const std::exception& e) {
-        std::cerr << "Error: Cannot convert '" << s << "' to number" << std::endl;
-        exit(1);
-    }
-}
-
-double estimatePrice(const std::vector<double>& theta, const std::vector<double>& features)
-{
-    if (theta.size() != features.size() + 1) {
-        std::cerr << "Error: Dimension mismatch between theta and features" << std::endl;
-        exit(1);
-    }
-
-    double result = theta[0];
-    for (size_t i = 0; i < features.size(); i++) {
-        result += theta[i + 1] * features[i];
-    }
-    return result;
-}
+// ...existing code...
 
 std::vector<double> parseFeatureInput(const std::string& input, size_t expected_features)
 {
@@ -74,16 +48,26 @@ std::vector<double> normalizeFeatures(const std::vector<double>& features,
 int main(int argc, char const *argv[])
 {
     size_t n_features = 0;
+    std::string model_file_name = "model.txt";
+    std::string test_file_name = "";
+    for (int i = 1; i < argc - 1; ++i) {
+        if (std::string(argv[i]) == "--model" && argv[i + 1] != nullptr) {
+            model_file_name = argv[i + 1];
+        }
+        if (std::string(argv[i]) == "--test" && argv[i + 1] != nullptr) {
+            test_file_name = argv[i + 1];
+        }
+    }
     std::vector<std::string> feature_names;
     std::string target_name;
     std::vector<double> theta;
     bool use_normalization = false;
     std::vector<double> feature_means;
     std::vector<double> feature_stds;
-
+    
     try {
 
-        std::ifstream model_file("model.txt");
+        std::ifstream model_file(model_file_name);
         if (model_file.is_open()) {
             model_file >> n_features;
 
@@ -159,6 +143,9 @@ int main(int argc, char const *argv[])
             std::cout << std::endl;
         }
 
+        LR lr;
+        lr.set_theta(theta);
+
         if (argc == 2) {
 
             std::vector<double> raw_features = parseFeatureInput(argv[1], n_features);
@@ -167,8 +154,8 @@ int main(int argc, char const *argv[])
             if (use_normalization) {
                 features = normalizeFeatures(raw_features, feature_means, feature_stds);
             }
-
-            double predicted_value = estimatePrice(theta, features);
+            MVector<double> x(features);
+            double predicted_value = lr.prediction(x);
 
             std::cout << "Input features:" << std::endl;
             for (size_t i = 0; i < raw_features.size(); i++) {
@@ -219,8 +206,8 @@ int main(int argc, char const *argv[])
                     if (use_normalization) {
                         features = normalizeFeatures(raw_features, feature_means, feature_stds);
                     }
-
-                    double predicted_value = estimatePrice(theta, features);
+                    MVector<double> x(features);
+                    double predicted_value = lr.prediction(x);
 
                     std::cout << "Input features:" << std::endl;
                     for (size_t i = 0; i < raw_features.size(); i++) {

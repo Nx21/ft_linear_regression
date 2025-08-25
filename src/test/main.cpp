@@ -30,35 +30,41 @@ bool load_model(const std::string& filename, std::vector<std::string>& feature_n
 
     std::string line;
 
-    if (!std::getline(file, line)) return false;
+    if (!std::getline(file, line)) 
+        return false;
     int num_features = std::stoi(line);
 
     feature_names.resize(num_features);
     for (int i = 0; i < num_features; i++) {
-        if (!std::getline(file, feature_names[i])) return false;
+        if (!std::getline(file, feature_names[i]))
+            return false;
     }
 
     if (!std::getline(file, target_name)) return false;
 
-    if (!std::getline(file, line)) return false;
+    if (!std::getline(file, line))
+        return false;
     is_normalized = (std::stoi(line) == 1);
 
     if (is_normalized) {
         means.resize(num_features);
         stds.resize(num_features);
         for (int i = 0; i < num_features; i++) {
-            if (!std::getline(file, line)) return false;
+            if (!std::getline(file, line))
+                return false;
             means[i] = std::stod(line);
         }
         for (int i = 0; i < num_features; i++) {
-            if (!std::getline(file, line)) return false;
+            if (!std::getline(file, line))
+                return false;
             stds[i] = std::stod(line);
         }
     }
 
     theta.resize(num_features + 1);
     for (int i = 0; i < num_features + 1; i++) {
-        if (!std::getline(file, line)) return false;
+        if (!std::getline(file, line))
+            return false;
         theta[i] = std::stod(line);
     }
 
