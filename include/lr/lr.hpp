@@ -14,20 +14,11 @@ class LR
         bool _use_normalization = false;
         std::vector<double> _feature_means;
         std::vector<double> _feature_stds;
-        std::vector<double> normalize_features(const std::vector<double>& features) const {
-            if (!_use_normalization || _feature_means.size() != features.size() || _feature_stds.size() != features.size())
-                return features;
-            std::vector<double> normalized(features.size());
-            for (size_t i = 0; i < features.size(); i++) {
-                normalized[i] = (features[i] - _feature_means[i]) / _feature_stds[i];
-            }
-            return normalized;
-        }
-    public:
+        public:
         friend std::ostream& operator<<(std::ostream& os, const LR& obj);
         LR(){};
         LR(MVector<double> const &theta):_theta(theta){};
-         void test_from_test_file(const std::string& test_file_name) {
+        void test_from_test_file(const std::string& test_file_name) {
             std::ifstream test_file(test_file_name);
             if (!test_file.is_open()) {
                 std::cerr << "Could not open test file: " << test_file_name << std::endl;
@@ -51,19 +42,17 @@ class LR
                 if (items.size() != expected_features + 1) {
                     std::cerr << "Line " << line_num << ": Expected " << expected_features << " features plus 1 solution, got " << items.size() << std::endl;
                     continue;
-                }  
+                }
                 for (size_t i = 0; i < expected_features; i++) {
                     if (!items[i].empty()) {
                         try {
                             features.push_back(ft_stod(items[i]));
                         } catch (...) {
                             std::cerr << "Line " << line_num << ": Invalid number '" << items[i] << "'" << std::endl;
-                            
                             break;
                         }
                     } else {
                         std::cerr << "Line " << line_num << ": Empty feature value" << std::endl;
-                        
                         break;
                     }
                 }
@@ -81,19 +70,29 @@ class LR
                 MVector<double> x(features);
                 double predicted_value = this->prediction(x);
                 double error = std::abs(predicted_value - true_value);
-                total_error += error;
+                double error_percent = (true_value != 0.0) ? (error / std::abs(true_value)) * 100.0 : 0.0;
+                total_error += error_percent;
                 total++;
-                if (error < 1e-6) correct++;
-                std::cout << "Line " << line_num << ": Prediction = " << predicted_value << ", True = " << true_value << ", Error = " << error << std::endl;
+                std::cout << "Line " << line_num << ": Prediction = " << predicted_value << ", True = " << true_value << ", Error = " << error << " (" << error_percent << "%)" << std::endl;
             }
             test_file.close();
             if (total > 0) {
-                double avg_error = total_error / total;
-                double accuracy = 100.0 * correct / total;
-                std::cout << "\nTested " << total << " cases. Average error: " << avg_error << ". Accuracy (<1e-6 error): " << accuracy << "%\n";
+                double avg_error_percent = total_error / total;
+                double accuracy = 100.0 - avg_error_percent;
+                std::cout << "\nTested " << total << " cases. Average error percentage: " << avg_error_percent << "%\n";
+                std::cout << "Accuracy: " << accuracy << "%\n";
             } else {
                 std::cout << "No valid test cases found." << std::endl;
             }
+        }
+        std::vector<double> normalize_features(const std::vector<double>& features) const {
+            if (!_use_normalization || _feature_means.size() != features.size() || _feature_stds.size() != features.size())
+                return features;
+            std::vector<double> normalized(features.size());
+            for (size_t i = 0; i < features.size(); i++) {
+                normalized[i] = (features[i] - _feature_means[i]) / _feature_stds[i];
+            }
+            return normalized;
         }
         void predict_from_test_file(const std::string& test_file_name) {
             std::ifstream test_file(test_file_name);
@@ -216,9 +215,24 @@ class LR
                 }
             }
         }
-        double  prediction(MVector<double> const &x)
-        {
-            return x * _theta;
+        double prediction(const MVector<double>& x_raw) {
+            MVector<double> features = x_raw;
+            puts("pred");
+            if (_use_normalization) {
+                puts("norm");
+                for (size_t i = 0; i < features.size(); ++i) {
+                    std::cout << "feature_means " << i << ": " << _feature_means[i] << std::endl;
+                    std::cout << "feature_stds " << i << ": " << _feature_stds[i] << std::endl;
+                    features[i] = (features[i] - _feature_means[i]) / _feature_stds[i];
+                    std::cout << "Normalized feature " << i << ": " << features[i] << std::endl;
+                }
+            }
+            double result = _theta[0];
+            for (size_t i = 0; i < features.size(); i++)
+            {
+                result += features[i] * _theta[i + 1];
+            } 
+            return result;
         }
         MVector<double> const &get_theta() const {
             return _theta;

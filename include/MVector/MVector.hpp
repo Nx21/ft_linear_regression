@@ -58,12 +58,12 @@ class MVector
         };
         T &operator[](size_t  index){
             if ( index >= _size)
-                throw std::out_of_range("Index out of range");
+                throw "Index out of range";
             return _vec[index];
         };
         const T &operator[](size_t  index) const{
             if ( index >= _size)
-                throw std::out_of_range("Index out of range");
+                throw "Index out of range";
             return _vec[index];
         };
         T operator*(MVector<T> const &M) const
