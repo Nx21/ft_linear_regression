@@ -2,7 +2,84 @@
 
 A comprehensive implementation of linear regression using gradient descent in C++, featuring normalization, command-line interface, and model evaluation tools.
 
-## � Features
+## Features
+- Train a linear regression model on CSV data
+- Save and load model parameters
+- Predict values for new data
+- Evaluate model accuracy on test datasets
+- Supports feature normalization
+- Command-line interface for training, prediction, and evaluation
+
+## Directory Structure
+```
+ft_linear_regression/
+├── data/                # Example CSV data files
+├── include/             # Header files
+├── obj/                 # Object files (generated)
+├── scripts/             # Utility scripts
+├── src/                 # Source code
+│   ├── train/           # Training program
+│   ├── prediction/      # Prediction program
+│   └── ...
+├── Makefile             # Build instructions
+├── model.txt            # Saved model parameters
+├── README.md            # Project documentation
+```
+
+## Build Instructions
+
+1. Clone the repository and navigate to the project directory.
+2. Run:
+	```sh
+	make
+	```
+	This will build the training and prediction executables.
+
+## Usage
+
+### Training
+Train a model using your CSV data:
+```sh
+./train data/data.csv
+```
+This will create `model.txt` with the trained parameters.
+
+### Prediction
+Predict values for new data:
+```sh
+./prediction feature1 feature2 ...
+```
+Or use a test file:
+```sh
+./prediction --test data/test.csv
+```
+
+### Evaluation
+Evaluate model accuracy on a test set (last column must be the true value):
+```sh
+./prediction --eval data/test.csv
+```
+
+### Model Options
+You can specify a custom model file:
+```sh
+./prediction --model mymodel.txt feature1 feature2 ...
+```
+
+## Model File Format
+The model file (`model.txt`) contains:
+- Number of features
+- Feature names
+- Target name
+- Normalization flag
+- Feature means and stds (if normalized)
+- Model parameters (theta)
+
+## License
+MIT
+
+## Author
+Nx21
 
 - **Training Program**: Train linear regression models with optional feature normalization
 - **Prediction Program**: Interactive prediction interface with automatic model detection
